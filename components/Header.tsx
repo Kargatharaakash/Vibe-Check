@@ -12,7 +12,7 @@ export const Header: React.FC<Props> = ({ onShowHistory, onExportPDF, isExportin
   return (
     <div className="h-14 border-b border-gray-800 bg-anthro-black flex items-center justify-between px-6 shrink-0 z-50">
       <div className="flex items-center gap-6">
-        <span className="font-bold tracking-tighter text-xl text-white">VIBE_OS</span>
+        <span className="font-bold tracking-tighter text-xl text-white">VIBE OS</span>
         <div className="h-4 w-[1px] bg-gray-700"></div>
         <div className="flex items-center gap-2 text-[10px] font-mono text-signal-green">
           <div className="w-2 h-2 rounded-full bg-signal-green animate-pulse"></div>

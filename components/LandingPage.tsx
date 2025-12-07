@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Upload, PlayCircle, AlertTriangle, ArrowRight, History, Aperture, Trash2 } from 'lucide-react';
 import { FileData } from '../types';
@@ -195,7 +194,7 @@ export const LandingPage: React.FC<Props> = ({
                         }}
                         className="pointer-events-auto bg-signal-orange hover:bg-[#ff5d1a] text-black font-bold px-12 py-5 flex items-center gap-3 transition-all hover:scale-105 shadow-[0_0_40px_rgba(255,77,0,0.3)] hover:shadow-[0_0_60px_rgba(255,77,0,0.5)] tracking-[0.15em] text-sm clip-path-slant z-50"
                     >
-                        RUN VIBE_OS <ArrowRight className="w-4 h-4" />
+                        RUN VIBE OS <ArrowRight className="w-4 h-4" />
                     </button>
                  </div>
               </div>
