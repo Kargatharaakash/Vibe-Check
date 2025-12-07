@@ -1,5 +1,7 @@
 {
   "name": "Vibe-Check: Cultural Anthropologist",
   "description": "A visual ethnography tool using Gemini to analyze street-level video and images, providing business recommendations based on 'vibe', fashion, and architectural cues.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [
+    "geolocation"
+  ]
 }

@@ -1,3 +1,4 @@
+
 export enum AnalysisStatus {
   IDLE = 'IDLE',
   PROCESSING = 'PROCESSING',
@@ -32,7 +33,9 @@ export interface EthnographyReport {
     marketingCopy: {
       slogan: string;
       hashtags: string[];
+      brandColors: string[];
     };
+    menuItems: { name: string; price: string }[];
   };
   radarMetrics: {
     innovation: number;
@@ -46,7 +49,7 @@ export interface EthnographyReport {
   socialScore: number; // 0-100 (Instagrammability)
   colorPalette: string[]; // Hex codes
   soundscape: string[];
-  scentProfile: string[]; // New: Olfactory
+  scentProfile: string[]; 
   temporalProjection: {
     past: string;
     future: string;
@@ -56,21 +59,73 @@ export interface EthnographyReport {
     quote: string;
     accessories: string[];
   };
-  antiPersona: string; // New: Who doesn't belong
+  antiPersona: string;
   
   // Environment
   architecturalStyle: string;
   atmosphere: string;
   commercialDensity: string;
-  constructionStatus: string; // New: Stable, Developing, decaying
+  constructionStatus: string;
   
   // Culture & Logistics
-  subcultures: string[]; // New: Specific tribes
-  localCurrency: string; // New: What is valued (Time, Space, etc)
-  peakTime: string; // New: Best time of day
-  transitAccess: string[]; // New: Mobility modes
-  brandAffinity: string[]; // New: Brands that fit
-  psychogeography: string[]; // New: Emotional keywords
+  subcultures: string[];
+  localCurrency: string;
+  peakTime: string;
+  transitAccess: string[];
+  brandAffinity: string[];
+  psychogeography: string[];
+
+  // CRAZY NEW FEATURES
+  latteIndex: {
+    price: string; // e.g. "$6.50"
+    insight: string; // "Oat milk surcharge detected"
+  };
+  panopticonScore: {
+    score: number; // 0-100
+    details: string; // "High CCTV density"
+  };
+  datingProfiles: {
+    name: string;
+    age: number;
+    bio: string;
+    app: string; // "Hinge", "Raya"
+    lookingFor: string;
+  }[];
+  goldenHour: {
+    time: string;
+    quality: string;
+  };
+  
+  vibeMatches: {
+    location: string;
+    city: string;
+    matchScore: number;
+    reason: string;
+  }[];
+  
+  rentalOpportunity: {
+    estimatedRentPerSqFt: string;
+    vacancyRisk: 'LOW' | 'MEDIUM' | 'HIGH' | 'EXTREME';
+    permitDifficulty: 'EASY' | 'MODERATE' | 'NIGHTMARE';
+    bestLeaseTerm: string;
+  };
+
+  playlist: {
+    song: string;
+    artist: string;
+    vibe: string;
+  }[];
+
+  investorPitch: {
+    subjectLine: string;
+    emailBody: string;
+  };
+
+  coordinates: {
+    lat: number;
+    lng: number;
+    locationName: string;
+  };
 }
 
 export interface FileData {
@@ -78,4 +133,11 @@ export interface FileData {
   previewUrl: string;
   base64: string;
   mimeType: string;
+}
+
+export interface HistoryItem {
+  id: string;
+  timestamp: number;
+  report: EthnographyReport;
+  thumbnail: string; // Base64 or Blob URL (if persisted safely)
 }

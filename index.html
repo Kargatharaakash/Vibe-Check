@@ -8,6 +8,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
     <script>
       tailwind.config = {
         theme: {
@@ -55,6 +61,30 @@
       }
       ::-webkit-scrollbar-thumb:hover {
         background: #ff4d00;
+      }
+      
+      /* Leaflet Dark Mode Overrides */
+      .leaflet-container {
+        background: #1a1a1a !important;
+        font-family: "IBM Plex Mono", monospace !important;
+      }
+      .leaflet-control-attribution {
+        background: rgba(0,0,0,0.8) !important;
+        color: #666 !important;
+      }
+      .leaflet-bar a {
+        background-color: #0a0a0a !important;
+        color: #fff !important;
+        border-bottom: 1px solid #333 !important;
+      }
+      .leaflet-bar a:hover {
+        background-color: #333 !important;
+      }
+      .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+        background: #0a0a0a !important;
+        color: #fff !important;
+        border: 1px solid #333;
+        border-radius: 0px !important;
       }
     </style>
   <script type="importmap">
