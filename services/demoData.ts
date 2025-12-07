@@ -3,6 +3,7 @@ import { EthnographyReport, BoundingBox } from '../types';
 export const DEMO_IMAGE_URL = "https://images.unsplash.com/photo-1496568816309-51d7c20e3b21?q=80&w=2531&auto=format&fit=crop";
 
 export const DEMO_REPORT: EthnographyReport = {
+  language: "English",
   locationVibe: "Post-Industrial Creative Hub",
   observedDemographics: [
     { label: "Creative Professionals", percentage: 45, description: "Late 20s, Macbook Airs, thrifted coats." },
@@ -109,5 +110,48 @@ export const DEMO_REPORT: EthnographyReport = {
     lat: 51.5245,
     lng: -0.0780,
     locationName: "Shoreditch, London"
+  },
+
+  // --- NEW ULTIMATE FIELDS ---
+  dogIndex: {
+      score: 85,
+      dominantBreed: "French Bulldog",
+      insight: "High frequency of purebreds suggests disposable income allocated to pet accessories."
+  },
+  digitalNomadScore: {
+      score: 92,
+      wifiReliability: "Fiber-optic everywhere",
+      laptopDensity: "Extremely High (MacBook Pro M3 dominant)"
+  },
+  liminalSpaceScore: {
+      score: 20,
+      description: "Too crowded and curated to feel liminal, except at 4am on a Tuesday."
+  },
+  vibeTarot: {
+      cardName: "The Hermit (Reversed)",
+      meaning: "Hyper-connectivity masking deep loneliness. A need to disconnect.",
+      visualSymbol: "📱"
+  },
+  eventHorizon: {
+      likelyEvents: ["Vintage Kilo Sale", "Natural Wine Tasting", "Zine Fair"],
+      vibe: "Performative Community"
+  },
+  competitorRadar: {
+      indiePercentage: 75,
+      chainPercentage: 25,
+      dominantChain: "Pret A Manger (Hidden in plain sight)"
+  },
+  influencerTrap: {
+      score: 88,
+      photoSpots: ["Graffiti Wall on Brick Lane", "Flower Market Arch", "Neon Sign at Bagel Shop"]
+  },
+  caffeineSaturation: {
+      shopsPerBlock: 4,
+      dominantBrewMethod: "V60 Pour Over"
+  },
+  localUniform: {
+      top: "Oversized Carhartt Jacket",
+      bottom: "Wide-leg pleated trousers",
+      shoes: "Salomon XT-6"
   }
 };

@@ -18,6 +18,7 @@ export const processFileToBase64 = (file: File): Promise<string> => {
 const reportSchema: Schema = {
   type: Type.OBJECT,
   properties: {
+    language: { type: Type.STRING },
     locationVibe: { type: Type.STRING },
     observedDemographics: {
       type: Type.ARRAY,
@@ -115,7 +116,7 @@ const reportSchema: Schema = {
     brandAffinity: { type: Type.ARRAY, items: { type: Type.STRING } },
     psychogeography: { type: Type.ARRAY, items: { type: Type.STRING } },
     
-    // CRAZY NEW FIELDS
+    // EXISTING CRAZY FIELDS
     latteIndex: {
         type: Type.OBJECT,
         properties: {
@@ -197,42 +198,127 @@ const reportSchema: Schema = {
             lng: { type: Type.NUMBER },
             locationName: { type: Type.STRING }
         }
+    },
+
+    // --- NEW ULTIMATE FIELDS ---
+    dogIndex: {
+        type: Type.OBJECT,
+        properties: {
+            score: { type: Type.NUMBER },
+            dominantBreed: { type: Type.STRING },
+            insight: { type: Type.STRING }
+        }
+    },
+    digitalNomadScore: {
+        type: Type.OBJECT,
+        properties: {
+            score: { type: Type.NUMBER },
+            wifiReliability: { type: Type.STRING },
+            laptopDensity: { type: Type.STRING }
+        }
+    },
+    liminalSpaceScore: {
+        type: Type.OBJECT,
+        properties: {
+            score: { type: Type.NUMBER },
+            description: { type: Type.STRING }
+        }
+    },
+    vibeTarot: {
+        type: Type.OBJECT,
+        properties: {
+            cardName: { type: Type.STRING },
+            meaning: { type: Type.STRING },
+            visualSymbol: { type: Type.STRING }
+        }
+    },
+    eventHorizon: {
+        type: Type.OBJECT,
+        properties: {
+            likelyEvents: { type: Type.ARRAY, items: { type: Type.STRING } },
+            vibe: { type: Type.STRING }
+        }
+    },
+    competitorRadar: {
+        type: Type.OBJECT,
+        properties: {
+            indiePercentage: { type: Type.NUMBER },
+            chainPercentage: { type: Type.NUMBER },
+            dominantChain: { type: Type.STRING }
+        }
+    },
+    influencerTrap: {
+        type: Type.OBJECT,
+        properties: {
+            score: { type: Type.NUMBER },
+            photoSpots: { type: Type.ARRAY, items: { type: Type.STRING } }
+        }
+    },
+    caffeineSaturation: {
+        type: Type.OBJECT,
+        properties: {
+            shopsPerBlock: { type: Type.NUMBER },
+            dominantBrewMethod: { type: Type.STRING }
+        }
+    },
+    localUniform: {
+        type: Type.OBJECT,
+        properties: {
+            top: { type: Type.STRING },
+            bottom: { type: Type.STRING },
+            shoes: { type: Type.STRING }
+        }
     }
   },
   required: [
-    "locationVibe", "observedDemographics", "businessRecommendation", 
+    "language", "locationVibe", "observedDemographics", "businessRecommendation", 
     "viabilityScore", "gentrificationIndex", "detectedObjects", "soundscape",
     "temporalProjection", "targetPersona", "antiPersona", "socialScore", "radarMetrics", "colorPalette",
     "architecturalStyle", "atmosphere", "commercialDensity", "constructionStatus",
     "subcultures", "localCurrency", "peakTime", "transitAccess", "brandAffinity", "psychogeography",
     "latteIndex", "panopticonScore", "datingProfiles", "goldenHour",
-    "vibeMatches", "rentalOpportunity", "playlist", "investorPitch", "coordinates"
+    "vibeMatches", "rentalOpportunity", "playlist", "investorPitch", "coordinates",
+    "dogIndex", "digitalNomadScore", "liminalSpaceScore", "vibeTarot", "eventHorizon",
+    "competitorRadar", "influencerTrap", "caffeineSaturation", "localUniform"
   ]
 };
 
-export const analyzeVibe = async (file: File): Promise<EthnographyReport> => {
+export const analyzeVibe = async (file: File, language: string): Promise<EthnographyReport> => {
   const base64Data = await processFileToBase64(file);
   
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
   const promptText = `
-    Act as a world-renowned Urban Anthropologist.
+    Act as a world-renowned Urban Anthropologist & Cultural Strategist.
+    Analyze this footage.
     
-    DEEP ANALYTICAL TASKS:
-    1. "THE LATTE INDEX": Estimate the price of a coffee based on the crowd/brands.
-    2. "THE PANOPTICON": Analyze surveillance levels (CCTV, guards, trust).
-    3. "TINDER ARCHETYPES": Generate 3 dating profiles of people who live here.
-    4. "GOLDEN HOUR": When is the best lighting?
-    5. "INSTANT IPO": Create a full brand identity for a recommended business.
-    6. "VISUAL ETHNOGRAPHY": Standard vibe check, physics, architecture.
-    7. "GEOLOCATION": Estimate coordinates.
+    CRITICAL INSTRUCTION:
+    You must output ALL string values in the following language: "${language}".
+    Keep the JSON keys in English, but the content must be in ${language}.
+
+    PERFORM THESE 20 DEEP ANALYSES:
+    1. "LATTE INDEX": Estimate coffee price.
+    2. "PANOPTICON": Surveillance level.
+    3. "TINDER ARCHETYPES": Dating profiles.
+    4. "GOLDEN HOUR": Lighting quality.
+    5. "INSTANT IPO": Business idea.
+    6. "DOG INDEX": Analyze pet breeds as economic indicators.
+    7. "NOMAD SCORE": Laptop/WiFi density.
+    8. "LIMINAL METER": Is it soulless/eerie?
+    9. "VIBE TAROT": Assign a mystical tarot card to this place.
+    10. "EVENT HORIZON": What pop-ups happen here?
+    11. "COMPETITOR RADAR": Indie vs Chain ratio.
+    12. "INFLUENCER TRAP": TikTok/Instagram potential.
+    13. "CAFFEINE SATURATION": Density of coffee.
+    14. "LOCAL UNIFORM": What are they wearing exactly?
+    15. "GEOLOCATION": Coordinates.
     
-    Synthesize all data into the JSON schema. Be witty, specific, and culturally sharp.
+    Be witty, specific, and culturally sharp.
   `;
 
   // PRIMARY ATTEMPT: GEMINI 3 PRO (The Brain)
   try {
-    console.log("Initiating Scan with Gemini 3 Pro...");
+    console.log(`Initiating Scan with Gemini 3 Pro in ${language}...`);
     const response = await ai.models.generateContent({
       model: "gemini-3-pro-preview",
       contents: {
@@ -256,7 +342,6 @@ export const analyzeVibe = async (file: File): Promise<EthnographyReport> => {
     console.warn("⚠️ Gemini 3 Pro Quota Hit. Engaging Backup Protocols (Gemini 2.5 Flash)...");
     
     // BACKUP ATTEMPT: GEMINI 2.5 FLASH (The Workhorse)
-    // If 3 Pro fails (Quota limit), we immediately switch to 2.5 Flash to save the demo.
     try {
         const response = await ai.models.generateContent({
             model: "gemini-2.5-flash",
@@ -269,7 +354,6 @@ export const analyzeVibe = async (file: File): Promise<EthnographyReport> => {
             config: {
                 responseMimeType: "application/json",
                 responseSchema: reportSchema,
-                // Note: We remove thinkingConfig as it's not strictly required for Flash
             },
         });
 
@@ -279,7 +363,7 @@ export const analyzeVibe = async (file: File): Promise<EthnographyReport> => {
 
     } catch (backupError) {
         console.error("CRITICAL FAILURE: Backup model also failed.", backupError);
-        throw error; // If both fail, we throw the original error
+        throw error;
     }
   }
 };
@@ -304,6 +388,6 @@ export const generateBrandLogo = async (prompt: string): Promise<string> => {
     return '';
   } catch (e) {
     console.error("Logo Generation Failed", e);
-    return ''; // Handle gracefully in UI
+    return ''; 
   }
 };

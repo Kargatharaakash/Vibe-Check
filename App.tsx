@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { AnalysisStatus, EthnographyReport, FileData, HistoryItem } from './types';
 import { analyzeVibe, processFileToBase64 } from './services/geminiService';
@@ -20,6 +21,7 @@ const App: React.FC = () => {
   const [isExporting, setIsExporting] = useState(false);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [showHistory, setShowHistory] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState<string>('English');
   
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -81,7 +83,7 @@ const App: React.FC = () => {
       const updatedFileData = { ...fileData, base64 };
       setFileData(updatedFileData);
 
-      const result = await analyzeVibe(fileData.file);
+      const result = await analyzeVibe(fileData.file, selectedLanguage);
       setReport(result);
       setStatus(AnalysisStatus.COMPLETE);
       
@@ -200,6 +202,9 @@ const App: React.FC = () => {
           onStartAnalysis={startAnalysis}
           onLoadDemo={loadDemo}
           onShowHistory={() => setShowHistory(true)}
+          selectedLanguage={selectedLanguage}
+          onLanguageSelect={setSelectedLanguage}
+          onReset={reset}
         />
       )}
 

@@ -17,6 +17,7 @@ export interface BoundingBox {
 }
 
 export interface EthnographyReport {
+  language: string; // The language this report is written in
   locationVibe: string;
   observedDemographics: {
     label: string;
@@ -126,6 +127,49 @@ export interface EthnographyReport {
     lng: number;
     locationName: string;
   };
+
+  // --- THE ULTIMATE 10 NEW FEATURES ---
+  dogIndex: {
+    score: number; // 0-100 (100 = Fancy Breeds)
+    dominantBreed: string;
+    insight: string;
+  };
+  digitalNomadScore: {
+    score: number; // 0-100
+    wifiReliability: string;
+    laptopDensity: string;
+  };
+  liminalSpaceScore: {
+    score: number; // 0-100 (High = Eerie/Empty)
+    description: string;
+  };
+  vibeTarot: {
+    cardName: string;
+    meaning: string;
+    visualSymbol: string;
+  };
+  eventHorizon: {
+    likelyEvents: string[]; // "Farmers Market", "Pop-up Gallery"
+    vibe: string;
+  };
+  competitorRadar: {
+    indiePercentage: number;
+    chainPercentage: number;
+    dominantChain: string;
+  };
+  influencerTrap: {
+    score: number;
+    photoSpots: string[];
+  };
+  caffeineSaturation: {
+    shopsPerBlock: number;
+    dominantBrewMethod: string;
+  };
+  localUniform: {
+    top: string;
+    bottom: string;
+    shoes: string;
+  };
 }
 
 export interface FileData {
@@ -139,5 +183,5 @@ export interface HistoryItem {
   id: string;
   timestamp: number;
   report: EthnographyReport;
-  thumbnail: string; // Base64 or Blob URL (if persisted safely)
+  thumbnail: string; 
 }
