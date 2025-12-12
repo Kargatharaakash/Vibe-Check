@@ -5,6 +5,7 @@ import { analyzeVibe, processFileToBase64 } from './services/geminiService';
 import { LoadingTerminal } from './components/LoadingTerminal';
 import { NoiseOverlay } from './components/NoiseOverlay';
 import { HistorySidebar } from './components/HistorySidebar';
+import { ApiKeyModal } from './components/ApiKeyModal';
 import { DEMO_REPORT, DEMO_IMAGE_URL } from './services/demoData';
 import { LandingPage } from './components/LandingPage';
 import { Header } from './components/Header';
@@ -22,8 +23,20 @@ const App: React.FC = () => {
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [showHistory, setShowHistory] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState<string>('English');
+  const [showApiKeyModal, setShowApiKeyModal] = useState(false);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Initialize: Check for API Key
+  useEffect(() => {
+    // Check if key exists in local storage OR environment
+    const storedKey = localStorage.getItem('vibe_api_key');
+    const envKey = process.env.API_KEY;
+    
+    if (!storedKey && !envKey) {
+      setShowApiKeyModal(true);
+    }
+  }, []);
 
   // Load history on mount
   useEffect(() => {
@@ -91,12 +104,13 @@ const App: React.FC = () => {
 
     } catch (err) {
       console.error(err);
-      setError("Analysis failed. The ethnography engine encountered an anomaly.");
+      setError("Analysis failed. Please check your API key quota or file format.");
       setStatus(AnalysisStatus.ERROR);
     }
   };
 
   const loadDemo = async () => {
+    setShowApiKeyModal(false); // Close modal if open
     setStatus(AnalysisStatus.PROCESSING);
     setTimeout(() => {
       const file = new File([""], "demo_shoreditch.jpg", { type: "image/jpeg" });
@@ -131,6 +145,11 @@ const App: React.FC = () => {
     setStatus(AnalysisStatus.IDLE);
     setError(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  const handleSaveApiKey = (key: string) => {
+    localStorage.setItem('vibe_api_key', key);
+    setShowApiKeyModal(false);
   };
 
   const handleExportPDF = async () => {
@@ -178,6 +197,10 @@ const App: React.FC = () => {
     <div className="min-h-screen font-sans bg-anthro-black text-anthro-light selection:bg-signal-orange selection:text-anthro-black overflow-x-hidden relative">
       <NoiseOverlay />
       
+      {showApiKeyModal && (
+        <ApiKeyModal onSave={handleSaveApiKey} onDemo={loadDemo} />
+      )}
+
       <HistorySidebar 
          isOpen={showHistory} 
          onClose={() => setShowHistory(false)} 

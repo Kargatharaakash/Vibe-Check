@@ -2,6 +2,20 @@
 import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { EthnographyReport } from "../types";
 
+// Helper to get the key safely
+const getApiKey = (): string => {
+  const storedKey = localStorage.getItem('vibe_api_key');
+  const envKey = process.env.API_KEY;
+  
+  // Prioritize stored key if it exists (user override), otherwise env key
+  const key = storedKey || envKey;
+  
+  if (!key) {
+    throw new Error("API Key not found. Please enter your Gemini API Key.");
+  }
+  return key;
+};
+
 export const processFileToBase64 = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -285,8 +299,9 @@ const reportSchema: Schema = {
 
 export const analyzeVibe = async (file: File, language: string): Promise<EthnographyReport> => {
   const base64Data = await processFileToBase64(file);
+  const apiKey = getApiKey();
   
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const ai = new GoogleGenAI({ apiKey });
   
   const promptText = `
     Act as a world-renowned Urban Anthropologist & Cultural Strategist.
@@ -339,7 +354,7 @@ export const analyzeVibe = async (file: File, language: string): Promise<Ethnogr
     return JSON.parse(text) as EthnographyReport;
 
   } catch (error: any) {
-    console.warn("⚠️ Gemini 3 Pro Quota Hit. Engaging Backup Protocols (Gemini 2.5 Flash)...");
+    console.warn("⚠️ Gemini 3 Pro Quota Hit or Error. Engaging Backup Protocols (Gemini 2.5 Flash)...");
     
     // BACKUP ATTEMPT: GEMINI 2.5 FLASH (The Workhorse)
     try {
@@ -369,7 +384,8 @@ export const analyzeVibe = async (file: File, language: string): Promise<Ethnogr
 };
 
 export const generateBrandLogo = async (prompt: string): Promise<string> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const apiKey = getApiKey();
+  const ai = new GoogleGenAI({ apiKey });
   try {
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash-image', // Using Flash Image for fast generation
